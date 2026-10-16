@@ -16,7 +16,8 @@
     "baseUrl": ".",
     "paths": {
       "$lib": ["src/lib"],
-      "$lib/*": ["src/lib/*"]
+      "$lib/*": ["src/lib/*"],
+      "@engine/*": ["../server/src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.svelte", "vite.config.ts"],

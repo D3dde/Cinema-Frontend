@@ -13,6 +13,9 @@
     "dev:server": "npm -w server run dev",
     "dev:web": "npm -w web run dev",
     "build": "npm -w web run build && npm -w server run build",
+    "build:server": "npm -w server run build",
+    "build:static": "npm -w server run build && node scripts/snapshot.mjs && npm -w web run build:static",
+    "snapshot": "npm -w server run build && node scripts/snapshot.mjs",
     "start": "npm -w server run start",
     "typecheck": "npm -w server run typecheck && npm -w web run check"
   },
