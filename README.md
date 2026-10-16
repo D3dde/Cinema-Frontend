@@ -1,86 +1,87 @@
 # Cinema Bergamo
 
-Programmazione unificata dei cinema di Bergamo in un'unica interfaccia:
-**UCI Cinemas Orio**, **Arcadia Stezzano** e **Notorious Curno**.
+Unified showtimes for the cinemas of Bergamo in a single interface:
+**UCI Cinemas Orio**, **Arcadia Stezzano** and **Notorious Curno**.
 
 Live: https://d3dde.github.io/Cinema-Frontend/
 
-## Funzionalità
+## Features
 
-- Tutta la programmazione dei tre cinema in un unico elenco cronologico.
-- Raggruppamento automatico dello stesso film tra catene diverse (i titoli sono
-  normalizzati e clusterizzati, es. `DUNE PARTE TRE | ANTEPRIMA IMAX` → `Duna: Parte Tre`).
-- Filtri per periodo, cinema, sale speciali (IMAX, ISENSE, XL, ENERGIA, …),
-  formato (2D/3D), lingua originale, sottotitolati e orari.
-- Link diretti alla prenotazione per ogni singolo spettacolo.
-- Export `.ics` del film selezionato.
-- Tema chiaro/scuro, interfaccia in italiano.
+- All programming from the three cinemas in one chronological list.
+- Automatic grouping of the same film across chains (titles are normalized and
+  clustered, e.g. `DUNE PARTE TRE | ANTEPRIMA IMAX` → `Duna: Parte Tre`).
+- Filters by period, cinema, premium halls (IMAX, ISENSE, XL, ENERGIA, …),
+  format (2D/3D), original language, subtitled and time.
+- Direct booking links for each individual showtime.
+- `.ics` export of the selected film.
+- Light/dark theme, Italian UI.
 
-## Struttura
+## Layout
 
-Monorepo con [npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces):
+Monorepo using [npm workspaces](https://docs.npmjs.com/cli/using-npm/workspaces):
 
-| Cartella   | Descrizione |
+| Folder     | Description |
 | ---------- | ----------- |
-| `server/`  | Backend Express: scarica, normalizza e aggrega la programmazione dalle API dei cinema. Espone `/api/cinemas`, `/api/films`, `/api/film/:key/showtimes`, `/api/schedule`. |
-| `web/`     | Frontend Svelte 5 + Vite + TypeScript (Tailwind v4, bits-ui). |
-| `scripts/` | `snapshot.mjs`: genera un JSON statico con tutta la programmazione. |
-| `assets/`  | Loghi originali dei cinema (le copie servite stanno in `web/public/brands/`). |
+| `server/`  | Express backend: downloads, normalizes and aggregates programming from the cinema APIs. Exposes `/api/cinemas`, `/api/films`, `/api/film/:key/showtimes`, `/api/schedule`. |
+| `web/`     | Frontend: Svelte 5 + Vite + TypeScript (Tailwind v4, bits-ui). |
+| `scripts/` | `snapshot.mjs`: generates a static JSON file with all the programming. |
+| `assets/`  | Original cinema logos (the served copies live in `web/public/brands/`). |
 
-Il frontend riusa **lo stesso motore dati del backend** tramite l'alias
-`@engine` → `server/src`. In locale parla con l'Express server (`/api`); nella
-build statica (GitHub Pages) esegue lo stesso codice nel browser, sostituendo il
-trasporto HTTP con un proxy CORS (`web/src/lib/engine/`).
+The frontend reuses **the backend's own data engine** through the `@engine`
+alias → `server/src`. Locally it talks to the Express server (`/api`); in the
+static build (GitHub Pages) it runs the same code in the browser, swapping the
+HTTP transport for a CORS proxy (`web/src/lib/engine/`).
 
-### Fonti dati
+### Data sources
 
-- **UCI Orio** — API Cloud Run (`myuci---uci-backend-production-*.a.run.app`).
-  Supporta CORS: viene chiamata direttamente, con fallback sul proxy.
+- **UCI Orio** — Cloud Run API (`myuci---uci-backend-production-*.a.run.app`).
+  It supports CORS, so it is requested directly, with a proxy fallback.
 - **Arcadia Stezzano** / **Notorious Curno** — Webtic (`secure.webtic.it`).
-  Nessun header CORS: passa sempre dal proxy.
+  No CORS headers, so they always go through the proxy.
 
-## Sviluppo
+## Development
 
-Requisiti: **Node.js 24+**.
+Requirements: **Node.js 24+**.
 
 ```bash
 npm install
-npm run dev          # server su :8787 + web su :5173 (proxy /api → :8787)
+npm run dev          # server on :8787 + web on :5173 (proxy /api → :8787)
 ```
 
-Il progetto include anche una flake Nix: `nix develop` fornisce Node 24 e npm.
+A Nix flake is also included: `nix develop` provides Node 24 and npm.
 
-### Script utili
+### Useful scripts
 
 ```bash
 npm run typecheck    # svelte-check + tsc
-npm run build        # build web + server (uso locale)
-npm run snapshot     # rigenera web/public/data/snapshot.json
-npm run build:static # build statica per GitHub Pages
+npm run build        # web + server build (local use)
+npm run snapshot     # regenerate web/public/data/snapshot.json
+npm run build:static # static build for GitHub Pages
 ```
 
 ## Deploy
 
-Il deploy è automatizzato da `.github/workflows/deploy.yml`:
+Deployment is automated by `.github/workflows/deploy.yml`:
 
-1. scarica i dati reali dalle API (dai runner non c'è il problema CORS) e genera
-   `web/public/data/snapshot.json` come fallback;
-2. builda il sito statico con `VITE_BASE=/Cinema-Frontend/` e `VITE_STATIC=1`;
-3. pubblica su GitHub Pages.
+1. fetches real data from the APIs (there is no CORS problem on the runners) and
+   generates `web/public/data/snapshot.json` as a fallback;
+2. builds the static site with `VITE_BASE=/Cinema-Frontend/` and `VITE_STATIC=1`;
+3. publishes to GitHub Pages.
 
-Viene eseguito a ogni push su `main`, manualmente e **ogni 3 ore** (cron) per
-rinnovare i dati.
+It runs on every push to `main`, manually, and **every 3 hours** (cron) to
+refresh the data.
 
-### Variabili d'ambiente (build web)
+### Environment variables (web build)
 
-| Variabile         | Descrizione |
+| Variable          | Description |
 | ----------------- | ----------- |
-| `VITE_STATIC`     | `1` per attivare il motore dati lato browser (Pages). |
-| `VITE_BASE`       | Base path pubblico (es. `/Cinema-Frontend/`). |
-| `VITE_CORS_PROXY` | Template proxy personalizzato, es. `https://myproxy/?url={url}`. |
+| `VITE_STATIC`     | `1` to enable the browser-side data engine (Pages). |
+| `VITE_BASE`       | Public base path (e.g. `/Cinema-Frontend/`). |
+| `VITE_CORS_PROXY` | Custom proxy template, e.g. `https://myproxy/?url={url}`. |
 
-## Note
+## Notes
 
-I dati provengono da API pubbliche non ufficiali dei cinema e possono essere
-incompleti o in ritardo. Il trasporto passa da proxy CORS pubblici: se non
-disponibili, il sito usa l'ultimo snapshot generato dal workflow.
+The data comes from unofficial public cinema APIs and may be incomplete or
+delayed. The transport relies on public CORS proxies: when they are
+unavailable, the site falls back to the latest snapshot generated by the
+workflow.
