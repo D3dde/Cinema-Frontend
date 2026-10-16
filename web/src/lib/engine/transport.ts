@@ -19,7 +19,10 @@ if (typeof custom === "string" && custom.includes("{url}")) {
 }
 
 /** Each proxy gets this long before we give up and try the next one. */
-const PROXY_TIMEOUT_MS = 12000;
+const PROXY_TIMEOUT_MS = 9000;
+
+/** How long a failed proxy is skipped before we try it again. */
+const PROXY_COOLDOWN_MS = 60_000;
 
 function proxied(template: string, url: string): string {
   return template.replace("{url}", encodeURIComponent(url));
@@ -66,7 +69,7 @@ function canTryDirect(url: string): boolean {
 }
 
 const directBlocked = new Set<string>();
-let cursor = 0;
+const proxyCooldown = new Map<string, number>();
 let installed = false;
 
 /** Route the shared engine's HTTP calls through direct fetch or a CORS proxy. */
@@ -90,9 +93,11 @@ export function installProxyTransport(): void {
 
     let lastError: unknown = new Error("No CORS proxy available");
 
-    for (let i = 0; i < PROXY_TEMPLATES.length; i++) {
-      const index = (cursor + i) % PROXY_TEMPLATES.length;
-      const target = proxied(PROXY_TEMPLATES[index], url);
+    // Always try the proxies in the listed order (fastest first); dead ones are
+    // temporarily skipped so a broken proxy cannot eat the whole time budget.
+    for (const template of PROXY_TEMPLATES) {
+      if ((proxyCooldown.get(template) ?? 0) > Date.now()) continue;
+      const target = proxied(template, url);
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), PROXY_TIMEOUT_MS);
       const signal = request.signal
@@ -100,16 +105,14 @@ export function installProxyTransport(): void {
         : controller.signal;
       try {
         const res = await fetch(target, { ...request, signal });
-        if (res.ok) {
-          cursor = (index + 1) % PROXY_TEMPLATES.length;
-          return res;
-        }
+        if (res.ok) return res;
         lastError = new Error(`Proxy HTTP ${res.status}`);
       } catch (err) {
         lastError = err;
       } finally {
         clearTimeout(timer);
       }
+      proxyCooldown.set(template, Date.now() + PROXY_COOLDOWN_MS);
     }
 
     throw lastError instanceof Error ? lastError : new Error(String(lastError));
