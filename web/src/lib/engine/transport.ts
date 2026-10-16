@@ -1,16 +1,16 @@
 import { setTransport } from "@engine/http";
 
 /**
- * The upstream cinema APIs do not send `Access-Control-Allow-Origin`, so the
- * browser cannot call them directly. We relay every request through a public
- * CORS proxy. Several are tried in rotation because they are rate-limited or
- * occasionally down.
+ * The Webtic API does not send `Access-Control-Allow-Origin`, so the browser
+ * cannot call it directly. Requests are relayed through a CORS proxy. Several
+ * are listed because free proxies get rate-limited or go down; the first one is
+ * a Cloudflare Worker and is by far the fastest/most reliable.
  */
 const PROXY_TEMPLATES: string[] = [
+  "https://cors-get-proxy.sirjosh.workers.dev/?url={url}",
   "https://api.cors.lol/?url={url}",
   "https://api.codetabs.com/v1/proxy?quest={url}",
   "https://api.allorigins.win/raw?url={url}",
-  "https://corsproxy.io/?url={url}",
 ];
 
 const custom = import.meta.env.VITE_CORS_PROXY;
@@ -18,8 +18,19 @@ if (typeof custom === "string" && custom.includes("{url}")) {
   PROXY_TEMPLATES.unshift(custom);
 }
 
+/** Each proxy gets this long before we give up and try the next one. */
+const PROXY_TIMEOUT_MS = 12000;
+
 function proxied(template: string, url: string): string {
   return template.replace("{url}", encodeURIComponent(url));
+}
+
+function hostOf(url: string): string {
+  try {
+    return new URL(url).hostname;
+  } catch {
+    return "";
+  }
 }
 
 /** Headers the browser refuses to let scripts set. */
@@ -42,19 +53,41 @@ function sanitize(init?: RequestInit): RequestInit {
   return { ...init, headers };
 }
 
-/** Each proxy gets this long before we give up and try the next one. */
-const PROXY_TIMEOUT_MS = 6000;
+/**
+ * Hosts that send `Access-Control-Allow-Origin` and can therefore be requested
+ * directly (faster, no proxy quota). Some of them intermittently reject
+ * browser-shaped requests, so a failed direct attempt falls back to a proxy.
+ */
+const DIRECT_SUFFIXES = ["a.run.app"];
 
+function canTryDirect(url: string): boolean {
+  const host = hostOf(url);
+  return DIRECT_SUFFIXES.some((suffix) => host === suffix || host.endsWith(`.${suffix}`));
+}
+
+const directBlocked = new Set<string>();
 let cursor = 0;
 let installed = false;
 
-/** Route the shared engine's HTTP calls through the CORS proxies. */
+/** Route the shared engine's HTTP calls through direct fetch or a CORS proxy. */
 export function installProxyTransport(): void {
   if (installed) return;
   installed = true;
 
   setTransport(async (url, init) => {
     const request = sanitize(init);
+    const host = hostOf(url);
+
+    if (canTryDirect(url) && !directBlocked.has(host)) {
+      try {
+        const res = await fetch(url, request);
+        if (res.ok) return res;
+      } catch {
+        /* fall through to the proxies */
+      }
+      directBlocked.add(host);
+    }
+
     let lastError: unknown = new Error("No CORS proxy available");
 
     for (let i = 0; i < PROXY_TEMPLATES.length; i++) {
