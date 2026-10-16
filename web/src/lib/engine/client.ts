@@ -2,6 +2,7 @@ import { CINEMAS } from "@engine/cinemas";
 import { aggregate, summarizeFilms, type Aggregated } from "@engine/service";
 import { resolveRange, todayInRome, nowMinutesInRome } from "@engine/dates";
 import { installProxyTransport } from "./transport";
+import { notifyEngineUpdate } from "./updates";
 import type {
   Cinema,
   CinemaFailure,
@@ -102,25 +103,95 @@ async function fromSnapshot(
   };
 }
 
+/** How long the background live refresh may take before we give up on it. */
+const LIVE_TIMEOUT_MS = 15_000;
+
+/** How long before a failed live refresh is retried on the next query. */
+const LIVE_RETRY_MS = 60_000;
+
+interface CacheEntry {
+  /** Fast, locally-bundled data; resolved as soon as `snapshot.json` is parsed. */
+  snapshot: Promise<Aggregated | null>;
+  /** Live data once a refresh has succeeded in this session. */
+  live: Aggregated | null;
+  /** In-flight live refresh, if any. */
+  livePromise: Promise<Aggregated | null> | null;
+  /** When the last live refresh started (for retry throttling). */
+  lastAttempt: number;
+}
+
+const cache = new Map<string, CacheEntry>();
+
+function cacheKey(from: string, to: string, cinemaIds?: string[]): string {
+  const ids = cinemaIds?.length ? [...cinemaIds].sort().join(",") : "";
+  return `${from}|${to}|${ids}`;
+}
+
+/** Kick off a live fetch through the CORS proxies; resolve to `null` on failure. */
+function refreshLive(
+  entry: CacheEntry,
+  from: string,
+  to: string,
+  cinemaIds?: string[],
+): Promise<Aggregated | null> {
+  installProxyTransport();
+  entry.lastAttempt = Date.now();
+  const promise = withTimeout(aggregate(from, to, cinemaIds), LIVE_TIMEOUT_MS)
+    .then((live) => {
+      // `aggregate` records per-cinema failures instead of throwing, so an
+      // all-failed result means "no live data": keep serving the snapshot.
+      if (live.showtimes.length === 0 && live.failures.length > 0) return null;
+      entry.live = live;
+      notifyEngineUpdate();
+      return live;
+    })
+    .catch(() => null)
+    .finally(() => {
+      entry.livePromise = null;
+    });
+  entry.livePromise = promise;
+  return promise;
+}
+
+function ensureEntry(from: string, to: string, cinemaIds?: string[]): CacheEntry {
+  const key = cacheKey(from, to, cinemaIds);
+  let entry = cache.get(key);
+  if (!entry) {
+    entry = {
+      snapshot: fromSnapshot(from, to, cinemaIds),
+      live: null,
+      livePromise: null,
+      lastAttempt: 0,
+    };
+    cache.set(key, entry);
+  }
+  if (!entry.live && !entry.livePromise && Date.now() - entry.lastAttempt >= LIVE_RETRY_MS) {
+    void refreshLive(entry, from, to, cinemaIds);
+  }
+  return entry;
+}
+
+/**
+ * Stale-while-revalidate: answer immediately from the bundled snapshot and let
+ * a live refresh run in the background, notifying the UI (via `updates`) when
+ * fresher data lands. Falls back to live-only when no snapshot is bundled.
+ */
 async function loadAggregated(
   from: string,
   to: string,
   cinemaIds?: string[],
 ): Promise<Aggregated> {
-  installProxyTransport();
-  try {
-    const live = await withTimeout(aggregate(from, to, cinemaIds), 12000);
-    // `aggregate` records per-cinema failures instead of throwing, so treat an
-    // all-failed result as "no live data" and prefer the bundled snapshot.
-    if (live.showtimes.length === 0 && live.failures.length > 0) {
-      return (await fromSnapshot(from, to, cinemaIds)) ?? live;
-    }
-    return live;
-  } catch (err) {
-    const snapshot = await fromSnapshot(from, to, cinemaIds);
-    if (snapshot) return snapshot;
-    throw err;
-  }
+  const entry = ensureEntry(from, to, cinemaIds);
+  if (entry.live) return entry.live;
+
+  const snapshot = await entry.snapshot;
+  if (snapshot) return snapshot;
+
+  const live =
+    (await entry.livePromise) ?? (await refreshLive(entry, from, to, cinemaIds));
+  if (live) return live;
+
+  return { showtimes: [], failures: [] };
 }
 
 export function engineCinemas(): Cinema[] {

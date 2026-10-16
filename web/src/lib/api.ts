@@ -1,4 +1,7 @@
 import type { Cinema, FilmShowtimesResponse, FilmsResponse } from "./types";
+import { onEngineUpdate } from "./engine/updates";
+
+export { onEngineUpdate };
 
 /**
  * On GitHub Pages there is no backend, so the app talks to the cinema APIs

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { app } from "./lib/state.svelte";
-  import { fetchCinemas, fetchFilms, fetchFilmShowtimes } from "./lib/api";
+  import { fetchCinemas, fetchFilms, fetchFilmShowtimes, onEngineUpdate } from "./lib/api";
   import { buildIcs } from "./lib/format";
   import { cn, download } from "./lib/utils";
   import FilterBar from "./components/FilterBar.svelte";
@@ -23,15 +23,24 @@
   let mounted = $state(false);
   /** Mobile master-detail: false = film list, true = showtimes. */
   let showDetail = $state(false);
+  /** Bumped when the engine swaps snapshot data for fresh live data. */
+  let engineRevision = $state(0);
 
-  onMount(async () => {
+  onMount(() => {
     app.setDark(app.dark);
-    try {
-      app.cinemas = await fetchCinemas();
-    } catch (err) {
-      app.error = err instanceof Error ? err.message : String(err);
-    }
-    mounted = true;
+    fetchCinemas()
+      .then((cinemas) => {
+        app.cinemas = cinemas;
+      })
+      .catch((err) => {
+        app.error = err instanceof Error ? err.message : String(err);
+      })
+      .finally(() => {
+        mounted = true;
+      });
+    return onEngineUpdate(() => {
+      engineRevision += 1;
+    });
   });
 
   const effectiveCinemas = $derived.by(() => {
@@ -81,7 +90,7 @@
   let lastFilmsSig = "";
   $effect(() => {
     if (!mounted) return;
-    const sig = filterSig + "|" + searchDebounced;
+    const sig = filterSig + "|" + engineRevision + "|" + searchDebounced;
     if (sig === lastFilmsSig) return;
     lastFilmsSig = sig;
     void loadFilms();
@@ -90,7 +99,7 @@
   let lastShowSig = "";
   $effect(() => {
     if (!mounted) return;
-    const sig = filterSig + "|" + app.selectedFilmKey;
+    const sig = filterSig + "|" + engineRevision + "|" + app.selectedFilmKey;
     if (sig === lastShowSig) return;
     lastShowSig = sig;
     void loadShowtimes();
@@ -99,7 +108,9 @@
   let filmsToken = 0;
   async function loadFilms() {
     const token = ++filmsToken;
-    app.loadingFilms = true;
+    // Only show skeletons on the first load; background live refreshes keep the
+    // current (snapshot) data on screen while they swap in fresher results.
+    if (app.films.length === 0) app.loadingFilms = true;
     app.error = "";
     try {
       const res = await fetchFilms({ ...baseParams(), search: searchDebounced });
@@ -118,20 +129,26 @@
   }
 
   let showToken = 0;
+  /** Film key the currently displayed showtimes belong to. */
+  let showtimesKey = $state("");
   async function loadShowtimes() {
     if (!app.selectedFilmKey) {
       app.showtimes = [];
       app.selectedFilm = undefined;
+      showtimesKey = "";
       return;
     }
     const token = ++showToken;
-    app.loadingShowtimes = true;
+    // Keep existing showtimes visible during a background live refresh; only
+    // show the spinner when switching to a film we have no showtimes for yet.
+    if (showtimesKey !== app.selectedFilmKey) app.loadingShowtimes = true;
     try {
       const res = await fetchFilmShowtimes(app.selectedFilmKey, baseParams());
       if (token !== showToken) return;
       app.showtimes = res.showtimes;
       app.selectedFilm =
         res.film ?? app.films.find((f) => f.filmKey === app.selectedFilmKey);
+      showtimesKey = app.selectedFilmKey;
     } catch (err) {
       if (token !== showToken) return;
       app.error = err instanceof Error ? err.message : String(err);
