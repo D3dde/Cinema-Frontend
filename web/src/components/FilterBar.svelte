@@ -9,7 +9,10 @@
   import CinemaLogo from "./CinemaLogo.svelte";
   import HallLogo from "./HallLogo.svelte";
   import { HALL_LOGOS } from "$lib/brands";
-  import { RotateCcw, Star } from "@lucide/svelte";
+  import { ChevronDown, RotateCcw, SlidersHorizontal, Star } from "@lucide/svelte";
+
+  /** Filters start collapsed on mobile and are always expanded on desktop. */
+  let open = $state(false);
 
   const HALLS = ["IMAX", "ENERGIA", "ISENSE", "XL", "SCREENX", "LUXE"];
 
@@ -51,10 +54,22 @@
     "data-[state=on]:border-black/30 data-[state=on]:bg-black/[0.08] dark:data-[state=on]:border-white/30 dark:data-[state=on]:bg-white/15";
 </script>
 
-<div
-  class="flex flex-col gap-3 rounded-xl border border-black/10 bg-white p-3 dark:border-white/10 dark:bg-white/[0.03]"
->
-  <!-- Row 1: date range -->
+<div class="rounded-xl border border-black/10 bg-white p-3 dark:border-white/10 dark:bg-white/[0.03]">
+  <button
+    type="button"
+    class="flex w-full items-center justify-between text-sm font-semibold lg:hidden"
+    aria-expanded={open}
+    onclick={() => (open = !open)}
+  >
+    <span class="flex items-center gap-2">
+      <SlidersHorizontal size={16} />
+      Filtri
+    </span>
+    <ChevronDown size={16} class={cn("transition-transform", open && "rotate-180")} />
+  </button>
+
+  <div class={cn("flex-col gap-3 pt-3 lg:pt-0", open ? "flex" : "hidden lg:flex")}>
+    <!-- Row 1: date range -->
   <div class="flex flex-wrap items-center gap-2">
     <span class="text-xs font-semibold uppercase tracking-wide text-black/40 dark:text-white/40"
       >Periodo</span
@@ -211,5 +226,6 @@
       checked={app.favoritesOnly}
       onchange={(v) => (app.favoritesOnly = v)}
     />
+    </div>
   </div>
 </div>

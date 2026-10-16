@@ -3,7 +3,7 @@
   import { app } from "./lib/state.svelte";
   import { fetchCinemas, fetchFilms, fetchFilmShowtimes } from "./lib/api";
   import { buildIcs } from "./lib/format";
-  import { download } from "./lib/utils";
+  import { cn, download } from "./lib/utils";
   import FilterBar from "./components/FilterBar.svelte";
   import FilmList from "./components/FilmList.svelte";
   import ShowtimeList from "./components/ShowtimeList.svelte";
@@ -17,9 +17,12 @@
     Download,
     TriangleAlert,
     Clapperboard,
+    ArrowLeft,
   } from "@lucide/svelte";
 
   let mounted = $state(false);
+  /** Mobile master-detail: false = film list, true = showtimes. */
+  let showDetail = $state(false);
 
   onMount(async () => {
     app.setDark(app.dark);
@@ -139,6 +142,14 @@
 
   function selectFilm(filmKey: string) {
     app.selectedFilmKey = filmKey;
+    showDetail = true;
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  function backToList() {
+    showDetail = false;
     if (typeof window !== "undefined") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -196,7 +207,15 @@
 </header>
 
 <main class="mx-auto grid max-w-7xl gap-4 p-3 sm:p-4 lg:grid-cols-[360px_minmax(0,1fr)]">
-  <aside class="flex min-h-0 flex-col gap-2 lg:sticky lg:top-[76px] lg:h-[calc(100vh-92px)]">
+  <aside
+    class={cn(
+      "min-h-0 flex-col gap-2 lg:sticky lg:top-[76px] lg:h-[calc(100vh-92px)]",
+      showDetail ? "hidden lg:flex" : "flex",
+    )}
+  >
+    <div class="lg:hidden">
+      <FilterBar />
+    </div>
     <div class="relative">
       <Search
         size={16}
@@ -221,7 +240,12 @@
     </div>
   </aside>
 
-  <section class="min-w-0 space-y-4">
+  <section class={cn("min-w-0 space-y-4", !showDetail && "hidden lg:block")}>
+    <Button variant="ghost" size="sm" class="-ml-2 lg:hidden" onclick={backToList}>
+      <ArrowLeft size={16} />
+      Film
+    </Button>
+
     <FilterBar />
 
     {#if app.error}
