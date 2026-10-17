@@ -1,0 +1,344 @@
+{
+  "version": 1,
+  "entries": {
+    "2001 a space odyssey": {
+      "url": "https://letterboxd.com/film/2001-a-space-odyssey/",
+      "slug": "2001-a-space-odyssey",
+      "rating": 4.23,
+      "reviewCount": 331050,
+      "matchedTitle": "2001: A Space Odyssey",
+      "matchedYear": 1968,
+      "fetchedAt": "2026-10-17T13:41:49.422Z"
+    },
+    "avengers doomsday": {
+      "url": "https://letterboxd.com/film/avengers-doomsday/",
+      "slug": "avengers-doomsday",
+      "matchedTitle": "Avengers: Doomsday",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:50.156Z"
+    },
+    "avengers endgame extra": {
+      "url": "https://letterboxd.com/film/avengers-endgame/",
+      "slug": "avengers-endgame",
+      "rating": 4.03,
+      "reviewCount": 492656,
+      "matchedTitle": "Avengers: Endgame",
+      "matchedYear": 2019,
+      "fetchedAt": "2026-10-17T13:41:12.462Z"
+    },
+    "clayface": {
+      "url": "https://letterboxd.com/film/clayface/",
+      "slug": "clayface",
+      "matchedTitle": "Clayface",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:18.404Z"
+    },
+    "coyote vs acme": {
+      "url": "https://letterboxd.com/film/coyote-vs-acme/",
+      "slug": "coyote-vs-acme",
+      "rating": 3.82,
+      "reviewCount": 309837,
+      "matchedTitle": "Coyote vs. Acme",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:07.049Z"
+    },
+    "digger": {
+      "url": "https://letterboxd.com/film/digger/",
+      "slug": "digger",
+      "matchedTitle": "Digger",
+      "matchedYear": 1993,
+      "fetchedAt": "2026-10-17T13:41:06.173Z"
+    },
+    "doomsday": {
+      "url": "https://letterboxd.com/film/avengers-doomsday/",
+      "slug": "avengers-doomsday",
+      "matchedTitle": "Avengers: Doomsday",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:51.067Z"
+    },
+    "dune parte tre": {
+      "url": "https://letterboxd.com/film/dune-part-three/",
+      "slug": "dune-part-three",
+      "matchedTitle": "Dune: Part Three",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:50.374Z"
+    },
+    "fast furious": {
+      "url": "https://letterboxd.com/film/the-fast-and-the-furious/",
+      "slug": "the-fast-and-the-furious",
+      "rating": 2.68,
+      "reviewCount": 464,
+      "matchedTitle": "The Fast and the Furious",
+      "matchedYear": 1954,
+      "fetchedAt": "2026-10-17T13:41:44.498Z"
+    },
+    "fatherland": {
+      "url": "https://letterboxd.com/film/fatherland/",
+      "slug": "fatherland",
+      "rating": 3.11,
+      "reviewCount": 316,
+      "matchedTitle": "Fatherland",
+      "matchedYear": 1994,
+      "fetchedAt": "2026-10-17T13:41:10.616Z"
+    },
+    "frankie e le creature dimenticate": {
+      "url": "https://letterboxd.com/film/stitch-head/",
+      "slug": "stitch-head",
+      "rating": 2.79,
+      "reviewCount": 1460,
+      "matchedTitle": "Stitch Head",
+      "matchedYear": 2025,
+      "fetchedAt": "2026-10-17T13:41:06.116Z"
+    },
+    "george michael the f": {
+      "url": "https://letterboxd.com/film/george-michael-the-faith-tour/",
+      "slug": "george-michael-the-faith-tour",
+      "matchedTitle": "George Michael: The Faith Tour",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:46.387Z"
+    },
+    "godzilla minus zero": {
+      "url": "https://letterboxd.com/film/godzilla-minus-zero/",
+      "slug": "godzilla-minus-zero",
+      "rating": 4.01,
+      "reviewCount": 982,
+      "matchedTitle": "Godzilla Minus Zero",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:48.190Z"
+    },
+    "heart of the beast": {
+      "url": "https://letterboxd.com/film/heart-of-the-beast/",
+      "slug": "heart-of-the-beast",
+      "matchedTitle": "Heart of the Beast",
+      "matchedYear": 2017,
+      "fetchedAt": "2026-10-17T13:41:05.165Z"
+    },
+    "ice cream man": {
+      "url": "https://letterboxd.com/film/ice-cream-man/",
+      "slug": "ice-cream-man",
+      "rating": 2.44,
+      "reviewCount": 7685,
+      "matchedTitle": "Ice Cream Man",
+      "matchedYear": 1995,
+      "fetchedAt": "2026-10-17T13:41:44.910Z"
+    },
+    "insidious fuori dallaltrove": {
+      "url": "https://letterboxd.com/film/insidious-out-of-the-further/",
+      "slug": "insidious-out-of-the-further",
+      "rating": 2.71,
+      "reviewCount": 125582,
+      "matchedTitle": "Insidious: Out of the Further",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:04.031Z"
+    },
+    "it ends": {
+      "url": "https://letterboxd.com/film/it-ends/",
+      "slug": "it-ends",
+      "rating": 3.29,
+      "reviewCount": 41688,
+      "matchedTitle": "It Ends",
+      "matchedYear": 2025,
+      "fetchedAt": "2026-10-17T13:41:43.892Z"
+    },
+    "je so pazzo": {
+      "url": "https://letterboxd.com/film/je-so-pazzo/",
+      "slug": "je-so-pazzo",
+      "matchedTitle": "Je so’ pazzo",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:06.149Z"
+    },
+    "jumbo la voce di don": {
+      "url": "https://letterboxd.com/film/jumbo-2025/",
+      "slug": "jumbo-2025",
+      "rating": 3.64,
+      "reviewCount": 18519,
+      "matchedTitle": "Jumbo",
+      "matchedYear": 2025,
+      "fetchedAt": "2026-10-17T13:41:08.645Z"
+    },
+    "lalbero di molto lontano": {
+      "url": "https://letterboxd.com/film/the-magic-faraway-tree/",
+      "slug": "the-magic-faraway-tree",
+      "rating": 3,
+      "reviewCount": 18888,
+      "matchedTitle": "The Magic Faraway Tree",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:08.975Z"
+    },
+    "lestranea": {
+      "url": "https://letterboxd.com/film/the-holy-boy/",
+      "slug": "the-holy-boy",
+      "rating": 3.55,
+      "reviewCount": 3210,
+      "matchedTitle": "The Holy Boy",
+      "matchedYear": 2025,
+      "fetchedAt": "2026-10-17T13:41:08.600Z"
+    },
+    "lisola dei ricordi": {
+      "url": "https://letterboxd.com/film/forgotten-island-2026/",
+      "slug": "forgotten-island-2026",
+      "rating": 3.91,
+      "reviewCount": 63076,
+      "matchedTitle": "Forgotten Island",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:05.152Z"
+    },
+    "mammina": {
+      "url": "https://letterboxd.com/film/other-mommy/",
+      "slug": "other-mommy",
+      "rating": 2.2,
+      "reviewCount": 99638,
+      "matchedTitle": "Other Mommy",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:04.215Z"
+    },
+    "matrix": {
+      "url": "https://letterboxd.com/film/the-matrix/",
+      "slug": "the-matrix",
+      "rating": 4.18,
+      "reviewCount": 342991,
+      "matchedTitle": "The Matrix",
+      "matchedYear": 1999,
+      "fetchedAt": "2026-10-17T13:41:42.373Z"
+    },
+    "odissea": {
+      "url": "https://letterboxd.com/film/the-odyssey/",
+      "slug": "the-odyssey",
+      "rating": 3.19,
+      "reviewCount": 3984,
+      "matchedTitle": "The Odyssey",
+      "matchedYear": 1997,
+      "fetchedAt": "2026-10-17T13:41:08.079Z"
+    },
+    "primetime": {
+      "url": "https://letterboxd.com/film/primetime/",
+      "slug": "primetime",
+      "matchedTitle": "Primetime",
+      "matchedYear": 2021,
+      "fetchedAt": "2026-10-17T13:41:07.129Z"
+    },
+    "ragione e sentimento": {
+      "url": "https://letterboxd.com/film/sense-and-sensibility/",
+      "slug": "sense-and-sensibility",
+      "rating": 3.88,
+      "reviewCount": 63746,
+      "matchedTitle": "Sense and Sensibility",
+      "matchedYear": 1995,
+      "fetchedAt": "2026-10-17T13:41:16.016Z"
+    },
+    "resident evil": {
+      "url": "https://letterboxd.com/film/resident-evil-2026/",
+      "slug": "resident-evil-2026",
+      "rating": 3.75,
+      "reviewCount": 749619,
+      "matchedTitle": "Resident Evil",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:11.375Z"
+    },
+    "se ami qualcuno dillo": {
+      "url": "https://letterboxd.com/film/se-ami-qualcuno-dillo/",
+      "slug": "se-ami-qualcuno-dillo",
+      "matchedTitle": "Se ami qualcuno dillo",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:05.078Z"
+    },
+    "se domani non torno": {
+      "url": "https://letterboxd.com/film/se-domani-non-torno/",
+      "slug": "se-domani-non-torno",
+      "matchedTitle": "Se domani non torno",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:45.824Z"
+    },
+    "street fighter": {
+      "url": "https://letterboxd.com/film/street-fighter/",
+      "slug": "street-fighter",
+      "rating": 2.19,
+      "reviewCount": 12598,
+      "matchedTitle": "Street Fighter",
+      "matchedYear": 1994,
+      "fetchedAt": "2026-10-17T13:41:04.153Z"
+    },
+    "the echo chamber": {
+      "url": "https://letterboxd.com/film/the-echo-chamber/",
+      "slug": "the-echo-chamber",
+      "rating": 2.87,
+      "reviewCount": 1134,
+      "matchedTitle": "The Echo Chamber",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:19.356Z"
+    },
+    "the invite": {
+      "url": "https://letterboxd.com/film/the-invite/",
+      "slug": "the-invite",
+      "matchedTitle": "The Invite",
+      "matchedYear": 2021,
+      "fetchedAt": "2026-10-17T13:41:16.985Z"
+    },
+    "the social il prezzo della verita": {
+      "url": "https://letterboxd.com/film/the-social-reckoning/",
+      "slug": "the-social-reckoning",
+      "rating": 3.02,
+      "reviewCount": 57151,
+      "matchedTitle": "The Social Reckoning",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:10.455Z"
+    },
+    "trainspotting 30 anniversario": {
+      "url": "https://letterboxd.com/film/trainspotting/",
+      "slug": "trainspotting",
+      "rating": 4.23,
+      "reviewCount": 258987,
+      "matchedTitle": "Trainspotting",
+      "matchedYear": 1996,
+      "fetchedAt": "2026-10-17T13:41:14.366Z"
+    },
+    "un tranquillo funerale di famiglia": {
+      "url": "https://letterboxd.com/film/un-tranquillo-funerale-di-famiglia/",
+      "slug": "un-tranquillo-funerale-di-famiglia",
+      "matchedTitle": "Un tranquillo funerale di famiglia",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:42.948Z"
+    },
+    "verity": {
+      "url": "https://letterboxd.com/film/verity/",
+      "slug": "verity",
+      "matchedTitle": "Verity",
+      "matchedYear": 2020,
+      "fetchedAt": "2026-10-17T13:41:39.198Z"
+    },
+    "whalefall": {
+      "url": "https://letterboxd.com/film/whalefall/",
+      "slug": "whalefall",
+      "rating": 3.27,
+      "reviewCount": 20188,
+      "matchedTitle": "Whalefall",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:09.602Z"
+    },
+    "whalefall nella balena": {
+      "url": "https://letterboxd.com/film/whalefall/",
+      "slug": "whalefall",
+      "rating": 3.27,
+      "reviewCount": 20188,
+      "matchedTitle": "Whalefall",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:07.016Z"
+    },
+    "wildwood i segreti del bosco proibito": {
+      "url": "https://letterboxd.com/film/wildwood-2026/",
+      "slug": "wildwood-2026",
+      "rating": 4.23,
+      "reviewCount": 1096,
+      "matchedTitle": "Wildwood",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:20.244Z"
+    },
+    "zustissia": {
+      "url": "https://letterboxd.com/film/zustissia/",
+      "slug": "zustissia",
+      "matchedTitle": "Zustìssia",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-10-17T13:41:13.453Z"
+    }
+  }
+}

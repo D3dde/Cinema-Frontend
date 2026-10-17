@@ -6,6 +6,7 @@ import type {
   Cinema,
   CinemaFailure,
   FilmSummary,
+  LetterboxdInfo,
   Showtime,
   SourceResult,
 } from "./types.js";
@@ -80,7 +81,10 @@ function pickMostCommon(values: string[]): string | undefined {
   return best;
 }
 
-export function summarizeFilms(showtimes: Showtime[]): FilmSummary[] {
+export function summarizeFilms(
+  showtimes: Showtime[],
+  filmsInfo?: Record<string, LetterboxdInfo>,
+): FilmSummary[] {
   const groups = new Map<string, Showtime[]>();
   for (const st of showtimes) {
     const arr = groups.get(st.filmKey);
@@ -103,6 +107,7 @@ export function summarizeFilms(showtimes: Showtime[]): FilmSummary[] {
       versions: [...new Set(list.map((s) => s.version).filter(Boolean) as string[])],
       firstDate: dates[0],
       lastDate: dates[dates.length - 1],
+      letterboxd: filmsInfo?.[filmKey],
     });
   }
 

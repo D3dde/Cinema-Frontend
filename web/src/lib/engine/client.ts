@@ -9,6 +9,7 @@ import type {
   FilmShowtimesResponse,
   FilmSummary,
   FilmsResponse,
+  LetterboxdInfo,
   Showtime,
 } from "../types";
 
@@ -38,6 +39,8 @@ interface Snapshot {
   generatedAt: string;
   showtimes: Showtime[];
   failures?: CinemaFailure[];
+  /** Letterboxd link/rating per canonical film key (build-time enrichment). */
+  films?: Record<string, LetterboxdInfo>;
 }
 
 function applyFilters(showtimes: Showtime[], q: ClientFilters): Showtime[] {
@@ -101,6 +104,12 @@ async function fromSnapshot(
     showtimes: scoped.filter((s) => s.date >= from && s.date <= to),
     failures: snapshot.failures ?? [],
   };
+}
+
+/** Letterboxd link/rating map from the bundled snapshot (static, best effort). */
+async function loadFilmInfo(): Promise<Record<string, LetterboxdInfo>> {
+  const snapshot = await loadSnapshot();
+  return snapshot?.films ?? {};
 }
 
 /** How long the background live refresh may take before we give up on it. */
@@ -202,7 +211,7 @@ export async function queryFilms(filters: ClientFilters): Promise<FilmsResponse>
   const { from, to } = resolveRange(filters.from, filters.to, 7);
   const { showtimes, failures } = await loadAggregated(from, to, filters.cinemas);
   const filtered = applyFilters(showtimes, filters);
-  let films = summarizeFilms(filtered) as FilmSummary[];
+  let films = summarizeFilms(filtered, await loadFilmInfo()) as FilmSummary[];
 
   const search = filters.search?.trim().toLowerCase() ?? "";
   if (search) {
@@ -231,6 +240,6 @@ export async function queryFilmShowtimes(
   if (list.length === 0) list = showtimes.filter((st) => st.filmKey.includes(key));
   list = applyFilters(list, filters);
 
-  const films = summarizeFilms(list) as FilmSummary[];
+  const films = summarizeFilms(list, await loadFilmInfo()) as FilmSummary[];
   return { from, to, film: films[0], showtimes: list, failures };
 }

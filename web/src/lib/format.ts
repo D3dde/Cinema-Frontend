@@ -87,6 +87,19 @@ function toHHMM(mins: number): string {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
 }
 
+/** Start time + film duration, wrapped around midnight (e.g. "01:20"). */
+export function endTime(st: Showtime): string | undefined {
+  if (!st.duration || !st.time) return undefined;
+  const [h, m] = st.time.split(":").map((n) => parseInt(n, 10));
+  if (!Number.isFinite(h) || !Number.isFinite(m)) return undefined;
+  return toHHMM((h * 60 + m + st.duration) % 1440);
+}
+
+/** Fallback Letterboxd link when a film has no resolved page. */
+export function letterboxdSearchUrl(title: string): string {
+  return `https://letterboxd.com/search/films/${encodeURIComponent(title.trim())}/`;
+}
+
 function icsDate(st: Showtime): string {
   const [y, mo, d] = st.date.split("-");
   const [h, mi] = st.time.split(":");

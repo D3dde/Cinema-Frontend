@@ -4,6 +4,7 @@ import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { CINEMAS } from "./cinemas.js";
 import { aggregate, summarizeFilms } from "./service.js";
+import { cachedFilmsInfo } from "./letterboxd.js";
 import { nowMinutesInRome, resolveRange, todayInRome } from "./dates.js";
 import type { Showtime } from "./types.js";
 
@@ -90,7 +91,7 @@ app.get("/api/films", async (req, res) => {
     const cinemaIds = parseList(req.query.cinemas);
     const { showtimes, failures } = await aggregate(from, to, cinemaIds);
     const filtered = applyFilters(showtimes, buildFilterQuery(req.query));
-    let films = summarizeFilms(filtered);
+    let films = summarizeFilms(filtered, await cachedFilmsInfo());
 
     const search = typeof req.query.search === "string" ? req.query.search.trim().toLowerCase() : "";
     if (search) {
@@ -128,7 +129,7 @@ app.get("/api/film/:filmKey/showtimes", async (req, res) => {
     }
     list = applyFilters(list, buildFilterQuery(req.query));
 
-    const films = summarizeFilms(list);
+    const films = summarizeFilms(list, await cachedFilmsInfo());
     res.json({ from, to, film: films[0], showtimes: list, failures });
   } catch (err) {
     res.status(500).json({ error: err instanceof Error ? err.message : String(err) });

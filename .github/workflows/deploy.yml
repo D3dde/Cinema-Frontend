@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -35,6 +35,19 @@ jobs:
 
       - name: Generate data snapshot
         run: node scripts/snapshot.mjs
+
+      - name: Persist Letterboxd cache
+        continue-on-error: true
+        run: |
+          if [ -n "$(git status --porcelain server/data/letterboxd-cache.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add server/data/letterboxd-cache.json
+            git commit -m "chore: refresh letterboxd cache [skip ci]"
+            git push
+          else
+            echo "Letterboxd cache unchanged."
+          fi
 
       - name: Build static site
         run: npm -w web run build:static

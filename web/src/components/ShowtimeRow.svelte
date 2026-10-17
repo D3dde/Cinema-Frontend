@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Showtime } from "$lib/types";
   import { cn } from "$lib/utils";
-  import { languageLabel } from "$lib/format";
+  import { endTime, languageLabel } from "$lib/format";
   import CinemaBadge from "./CinemaBadge.svelte";
   import HallBadge from "./HallBadge.svelte";
   import Badge from "./ui/Badge.svelte";
@@ -15,6 +15,8 @@
   }
 
   let { showtime, isNext = false, isPast = false }: Props = $props();
+
+  const endsAt = $derived(endTime(showtime));
 </script>
 
 <div
@@ -50,6 +52,7 @@
       {#if showtime.originalVersion}<span>Lingua originale</span>{/if}
       {#if showtime.subtitled}<span>Sottotitolato</span>{/if}
       <span>{languageLabel(showtime.language)}</span>
+      {#if endsAt}<span class="tabular-nums">finisce alle {endsAt}</span>{/if}
     </div>
   </div>
 

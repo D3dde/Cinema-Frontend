@@ -2,11 +2,12 @@
   import { onMount } from "svelte";
   import { app } from "./lib/state.svelte";
   import { fetchCinemas, fetchFilms, fetchFilmShowtimes, onEngineUpdate } from "./lib/api";
-  import { buildIcs } from "./lib/format";
+  import { buildIcs, letterboxdSearchUrl } from "./lib/format";
   import { cn, download } from "./lib/utils";
   import FilterBar from "./components/FilterBar.svelte";
   import FilmList from "./components/FilmList.svelte";
   import ShowtimeList from "./components/ShowtimeList.svelte";
+  import LetterboxdLogo from "./components/LetterboxdLogo.svelte";
   import Input from "./components/ui/Input.svelte";
   import Button from "./components/ui/Button.svelte";
   import {
@@ -318,6 +319,21 @@
                 {app.selectedFilm.duration % 60}m</span
               >
             {/if}
+            <a
+              href={app.selectedFilm.letterboxd?.url ?? letterboxdSearchUrl(app.selectedFilm.title)}
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Apri su Letterboxd"
+              class="inline-flex items-center gap-1.5 rounded-md bg-black/5 px-2 py-0.5 font-medium text-black/70 transition-colors hover:bg-black/10 dark:bg-white/10 dark:text-white/70 dark:hover:bg-white/20"
+            >
+              <LetterboxdLogo height={12} />
+              Letterboxd
+              {#if app.selectedFilm.letterboxd?.rating}
+                <span class="tabular-nums"
+                  >· {app.selectedFilm.letterboxd.rating.toFixed(1)}/5</span
+                >
+              {/if}
+            </a>
           </div>
         </div>
         <Button variant="secondary" size="sm" onclick={exportIcs} disabled={app.showtimes.length === 0}>

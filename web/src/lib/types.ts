@@ -35,6 +35,15 @@ export interface Showtime {
   bookingUrl?: string;
 }
 
+export interface LetterboxdInfo {
+  url: string;
+  slug?: string;
+  rating?: number;
+  reviewCount?: number;
+  matchedTitle?: string;
+  matchedYear?: number;
+}
+
 export interface FilmSummary {
   filmKey: string;
   title: string;
@@ -47,6 +56,7 @@ export interface FilmSummary {
   versions: string[];
   firstDate?: string;
   lastDate?: string;
+  letterboxd?: LetterboxdInfo;
 }
 
 export interface CinemaFailure {

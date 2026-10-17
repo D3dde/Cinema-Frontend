@@ -40,6 +40,19 @@ export interface Showtime {
   bookingUrl?: string;
 }
 
+/** Rating / link metadata resolved from Letterboxd (best effort, build time). */
+export interface LetterboxdInfo {
+  /** Canonical Letterboxd film page, or a search URL when no match was found. */
+  url: string;
+  slug?: string;
+  /** Weighted average rating, 0.5–5. */
+  rating?: number;
+  reviewCount?: number;
+  matchedTitle?: string;
+  matchedYear?: number;
+  fetchedAt?: string;
+}
+
 export interface FilmSummary {
   filmKey: string;
   title: string;
@@ -52,6 +65,7 @@ export interface FilmSummary {
   versions: string[];
   firstDate?: string;
   lastDate?: string;
+  letterboxd?: LetterboxdInfo;
 }
 
 export interface FilmsResponse {
