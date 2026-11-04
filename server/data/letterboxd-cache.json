@@ -113,6 +113,15 @@
       "matchedYear": 2017,
       "fetchedAt": "2026-10-17T13:41:05.165Z"
     },
+    "hope": {
+      "url": "https://letterboxd.com/film/hope/",
+      "slug": "hope",
+      "rating": 3.9,
+      "reviewCount": 473,
+      "matchedTitle": "Hope",
+      "matchedYear": 1970,
+      "fetchedAt": "2026-11-04T17:16:42.275Z"
+    },
     "ice cream man": {
       "url": "https://letterboxd.com/film/ice-cream-man/",
       "slug": "ice-cream-man",
@@ -183,6 +192,13 @@
       "matchedYear": 2026,
       "fetchedAt": "2026-10-17T13:41:05.152Z"
     },
+    "lorenzo lincredibile avventura": {
+      "url": "https://letterboxd.com/film/lorenzo-lincredibile-avventura-di-jovanotti/",
+      "slug": "lorenzo-lincredibile-avventura-di-jovanotti",
+      "matchedTitle": "Lorenzo - L’incredibile avventura di Jovanotti",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-11-04T17:16:45.037Z"
+    },
     "mammina": {
       "url": "https://letterboxd.com/film/other-mommy/",
       "slug": "other-mommy",
@@ -234,6 +250,13 @@
       "matchedTitle": "Resident Evil",
       "matchedYear": 2026,
       "fetchedAt": "2026-10-17T13:41:11.375Z"
+    },
+    "rider": {
+      "url": "https://letterboxd.com/film/rider/",
+      "slug": "rider",
+      "matchedTitle": "Rider",
+      "matchedYear": 2021,
+      "fetchedAt": "2026-11-04T17:16:43.707Z"
     },
     "se ami qualcuno dillo": {
       "url": "https://letterboxd.com/film/se-ami-qualcuno-dillo/",
