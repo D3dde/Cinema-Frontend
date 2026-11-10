@@ -140,6 +140,15 @@
       "matchedYear": 1995,
       "fetchedAt": "2026-10-17T13:41:44.910Z"
     },
+    "il gatto col cappello": {
+      "url": "https://letterboxd.com/film/the-cat-in-the-hat-2026/",
+      "slug": "the-cat-in-the-hat-2026",
+      "rating": 3.12,
+      "reviewCount": 5290,
+      "matchedTitle": "The Cat in the Hat",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-11-10T03:35:43.838Z"
+    },
     "insidious fuori dallaltrove": {
       "url": "https://letterboxd.com/film/insidious-out-of-the-further/",
       "slug": "insidious-out-of-the-further",
