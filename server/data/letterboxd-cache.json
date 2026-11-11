@@ -81,6 +81,15 @@
       "matchedYear": 1994,
       "fetchedAt": "2026-10-17T13:41:10.616Z"
     },
+    "ferine": {
+      "url": "https://letterboxd.com/film/ferine-2025/",
+      "slug": "ferine-2025",
+      "rating": 3.1,
+      "reviewCount": 174,
+      "matchedTitle": "Ferine",
+      "matchedYear": 2025,
+      "fetchedAt": "2026-11-11T17:10:11.009Z"
+    },
     "frankie e le creature dimenticate": {
       "url": "https://letterboxd.com/film/stitch-head/",
       "slug": "stitch-head",
