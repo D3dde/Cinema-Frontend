@@ -358,6 +358,13 @@
       "matchedYear": 2026,
       "fetchedAt": "2026-10-17T13:41:42.948Z"
     },
+    "un weekend artificiale": {
+      "url": "https://letterboxd.com/film/un-weekend-artificiale/",
+      "slug": "un-weekend-artificiale",
+      "matchedTitle": "Un weekend artificiale",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-11-19T02:35:32.307Z"
+    },
     "verity": {
       "url": "https://letterboxd.com/film/verity/",
       "slug": "verity",
