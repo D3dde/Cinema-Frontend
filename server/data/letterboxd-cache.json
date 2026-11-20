@@ -201,6 +201,13 @@
       "matchedYear": 1989,
       "fetchedAt": "2026-11-14T10:29:37.286Z"
     },
+    "la notte delle fragole": {
+      "url": "https://letterboxd.com/film/la-notte-delle-fragole/",
+      "slug": "la-notte-delle-fragole",
+      "matchedTitle": "La notte delle fragole",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-11-20T02:20:49.717Z"
+    },
     "lalbero di molto lontano": {
       "url": "https://letterboxd.com/film/the-magic-faraway-tree/",
       "slug": "the-magic-faraway-tree",
@@ -402,9 +409,11 @@
     "zustissia": {
       "url": "https://letterboxd.com/film/zustissia/",
       "slug": "zustissia",
+      "rating": 3.55,
+      "reviewCount": 87,
       "matchedTitle": "Zustìssia",
       "matchedYear": 2026,
-      "fetchedAt": "2026-10-17T13:41:13.453Z"
+      "fetchedAt": "2026-11-20T02:20:49.164Z"
     }
   }
 }
