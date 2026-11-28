@@ -324,6 +324,15 @@
       "matchedYear": 2026,
       "fetchedAt": "2026-10-17T13:41:45.824Z"
     },
+    "spider man brand": {
+      "url": "https://letterboxd.com/film/spider-man-brand-new-day/",
+      "slug": "spider-man-brand-new-day",
+      "rating": 4.02,
+      "reviewCount": 2071430,
+      "matchedTitle": "Spider-Man: Brand New Day",
+      "matchedYear": 2026,
+      "fetchedAt": "2026-11-28T07:52:26.854Z"
+    },
     "street fighter": {
       "url": "https://letterboxd.com/film/street-fighter/",
       "slug": "street-fighter",
